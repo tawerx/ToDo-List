@@ -1,0 +1,73 @@
+@import '../libs/normalize';
+
+* {
+  font-family: 'Nunito', Roboto, system-ui, Tahoma, sans-serif;
+  box-sizing: border-box;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+.createNewPosts {
+  margin: 70px auto;
+  width: 876px;
+  height: 591px;
+  border: 2px solid black;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  .newPost-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .postTitle {
+    background-color: #bfbfbf;
+    width: 872px;
+    height: 79px;
+    border: 0px;
+    border-radius: 15px 15px 0 0;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-align: center;
+    overflow: auto;
+  }
+
+  .postText {
+    width: 872px;
+    height: 390px;
+    border: 0px;
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    padding: 4px;
+    resize: none;
+    text-align: center;
+  }
+  button {
+    cursor: pointer;
+    margin: 30px 20px;
+    color: white;
+    background-color: #5f5f5f;
+    width: 241px;
+    height: 52px;
+    font-size: 21px;
+    text-align: center;
+  }
+}
+
+.createNewPost--header {
+  a {
+    &:visited {
+      color: black;
+    }
+  }
+  &--addNewPost {
+    h2 {
+      text-align: center;
+      margin-top: 30px;
+    }
+  }
+}
