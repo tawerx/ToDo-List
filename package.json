@@ -1,7 +1,7 @@
 {
   "name": "todo-list",
   "version": "0.1.0",
-  "homepage": "https://tawerx.github.io/ToDo-List/",
+  "homepage": "https://tawerx.github.io/ToDo-List",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
