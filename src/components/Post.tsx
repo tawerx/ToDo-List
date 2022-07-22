@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Posts, setFlag } from '../redux/slices/logic';
+import { RootState } from '../redux/store';
 
 type PostProps = {
   title: string;
@@ -12,6 +13,9 @@ const Post: React.FC<PostProps> = ({ title, index }) => {
   const [deleteBar, setDeleteBar] = React.useState(false);
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = React.useState(false);
+  const postContainerRef = React.useRef(null);
+
+  const { flag, chosenColor } = useSelector((state: RootState) => state.colors);
 
   const onClickClear = () => {
     setDeleteBar(true);
@@ -22,8 +26,6 @@ const Post: React.FC<PostProps> = ({ title, index }) => {
     setCompleteBar(true);
     setTimeout(clickComplete, 2000);
   };
-
-  const colorRef = React.useRef(null);
 
   const clickDelete = () => {
     deletePost();
@@ -49,13 +51,29 @@ const Post: React.FC<PostProps> = ({ title, index }) => {
     }
   };
 
+  React.useEffect(() => {
+    if (postContainerRef.current) {
+      const htmlElement = postContainerRef.current as HTMLElement;
+      htmlElement.style.backgroundColor = chosenColor;
+    }
+  }, [flag]);
+
+  React.useEffect(() => {
+    const { bodyColor, wrapperColor } = JSON.parse(localStorage.getItem('colors') as string);
+    document.body.style.backgroundColor = bodyColor;
+    if (postContainerRef.current) {
+      const htmlElement = postContainerRef.current as HTMLElement;
+      htmlElement.style.backgroundColor = wrapperColor;
+    }
+  }, []);
+
   return (
     <div onClick={onClickVisible} className="content">
       <div className="content--post">
         <div className="content--post--id">
           <span>{index + 1 + '.'}</span>
         </div>
-        <div ref={colorRef} className="content--post--container">
+        <div ref={postContainerRef} className="content--post--container">
           {completeBar && <div className="progress-value-complete"></div>}
           {deleteBar && <div className="progress-value-delete"></div>}
           <div className="content--post--title">

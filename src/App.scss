@@ -34,6 +34,73 @@ body {
     margin: 0 auto;
   }
 
+  &--select--color {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+    width: 777px;
+    align-self: center;
+
+    .blue {
+      background-color: #adf;
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .yellow {
+      background-color: #f8ff89cc;
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .purple {
+      background-color: #aad;
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .white {
+      background-color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .dark {
+      background-color: #000000d1;
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .orange {
+      background-color: #ff8900d1;
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 876px) {
+      width: 80%;
+    }
+  }
+
   .header--add--post {
     display: flex;
 

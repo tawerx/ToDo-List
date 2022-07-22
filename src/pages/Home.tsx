@@ -11,14 +11,20 @@ const Home: React.FC = () => {
   const { flag, posts } = useSelector((state: RootState) => state.logic);
 
   React.useEffect(() => {
-    if (localStorage.length == 0) {
+    if (localStorage.getItem('posts') == null) {
       localStorage.setItem('posts', '[]');
+    }
+
+    if (localStorage.getItem('colors') == null) {
+      localStorage.setItem('colors', '{}');
     }
   }, []);
 
   React.useEffect(() => {
     dispath(setPosts(JSON.parse(localStorage.getItem('posts') as string)));
   }, [flag]);
+
+  const emptyPostRef = React.useRef(null);
 
   const emptyPosts = <EmptyPosts />;
   const postsItems = posts.map((obj, i) => {
