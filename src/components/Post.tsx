@@ -59,11 +59,13 @@ const Post: React.FC<PostProps> = ({ title, index }) => {
   }, [flag]);
 
   React.useEffect(() => {
-    const { bodyColor, wrapperColor } = JSON.parse(localStorage.getItem('colors') as string);
-    document.body.style.backgroundColor = bodyColor;
-    if (postContainerRef.current) {
-      const htmlElement = postContainerRef.current as HTMLElement;
-      htmlElement.style.backgroundColor = wrapperColor;
+    if (localStorage.getItem('colors') != null) {
+      const { bodyColor, wrapperColor } = JSON.parse(localStorage.getItem('colors') as string);
+      document.body.style.backgroundColor = bodyColor;
+      if (postContainerRef.current) {
+        const htmlElement = postContainerRef.current as HTMLElement;
+        htmlElement.style.backgroundColor = wrapperColor;
+      }
     }
   }, []);
 

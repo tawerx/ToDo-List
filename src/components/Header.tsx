@@ -50,16 +50,18 @@ const Header = () => {
   };
 
   React.useEffect(() => {
-    const { bodyColor, wrapperColor } = JSON.parse(localStorage.getItem('colors') as string);
-    document.body.style.backgroundColor = bodyColor;
-    if (headerTitleRef.current) {
-      const htmlElement = headerTitleRef.current as HTMLElement;
-      htmlElement.style.backgroundColor = wrapperColor;
-    }
+    if (localStorage.getItem('colors') != null) {
+      const { bodyColor, wrapperColor } = JSON.parse(localStorage.getItem('colors') as string);
+      document.body.style.backgroundColor = bodyColor;
+      if (headerTitleRef.current) {
+        const htmlElement = headerTitleRef.current as HTMLElement;
+        htmlElement.style.backgroundColor = wrapperColor;
+      }
 
-    if (headerAddButtonRef.current) {
-      const htmlElement = headerAddButtonRef.current as HTMLElement;
-      htmlElement.style.backgroundColor = wrapperColor;
+      if (headerAddButtonRef.current) {
+        const htmlElement = headerAddButtonRef.current as HTMLElement;
+        htmlElement.style.backgroundColor = wrapperColor;
+      }
     }
   }, []);
 

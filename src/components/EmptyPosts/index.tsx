@@ -17,11 +17,13 @@ const EmptyPosts: React.FC = () => {
   }, [flag]);
 
   React.useEffect(() => {
-    const { bodyColor, wrapperColor } = JSON.parse(localStorage.getItem('colors') as string);
-    document.body.style.backgroundColor = bodyColor;
-    if (emptyPostRef.current) {
-      const htmlElement = emptyPostRef.current as HTMLElement;
-      htmlElement.style.backgroundColor = wrapperColor;
+    if (localStorage.getItem('colors') != null) {
+      const { bodyColor, wrapperColor } = JSON.parse(localStorage.getItem('colors') as string);
+      document.body.style.backgroundColor = bodyColor;
+      if (emptyPostRef.current) {
+        const htmlElement = emptyPostRef.current as HTMLElement;
+        htmlElement.style.backgroundColor = wrapperColor;
+      }
     }
   }, []);
 
