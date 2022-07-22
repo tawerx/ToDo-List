@@ -49,6 +49,11 @@ body {
       border-radius: 100%;
       cursor: pointer;
       border: 1px solid rgba(0, 0, 0, 0.3);
+      @media (max-width: 876px) {
+        margin: 0 2px;
+        width: 40px;
+        height: 40px;
+      }
     }
 
     .yellow {
@@ -58,6 +63,11 @@ body {
       border-radius: 100%;
       cursor: pointer;
       border: 1px solid rgba(0, 0, 0, 0.3);
+      @media (max-width: 876px) {
+        margin: 0 2px;
+        width: 40px;
+        height: 40px;
+      }
     }
 
     .purple {
@@ -67,6 +77,11 @@ body {
       border-radius: 100%;
       cursor: pointer;
       border: 1px solid rgba(0, 0, 0, 0.3);
+      @media (max-width: 876px) {
+        margin: 0 2px;
+        width: 40px;
+        height: 40px;
+      }
     }
 
     .white {
@@ -76,6 +91,11 @@ body {
       border-radius: 100%;
       cursor: pointer;
       border: 1px solid rgba(0, 0, 0, 0.3);
+      @media (max-width: 876px) {
+        margin: 0 2px;
+        width: 40px;
+        height: 40px;
+      }
     }
 
     .dark {
@@ -85,6 +105,11 @@ body {
       border-radius: 100%;
       cursor: pointer;
       border: 1px solid rgba(0, 0, 0, 0.3);
+      @media (max-width: 876px) {
+        margin: 0 2px;
+        width: 40px;
+        height: 40px;
+      }
     }
 
     .orange {
@@ -94,6 +119,11 @@ body {
       border-radius: 100%;
       cursor: pointer;
       border: 1px solid rgba(0, 0, 0, 0.3);
+      @media (max-width: 876px) {
+        margin: 0 2px;
+        width: 40px;
+        height: 40px;
+      }
     }
 
     @media (max-width: 876px) {
