@@ -207,10 +207,17 @@ body {
   cursor: pointer;
 
   &--post {
-    width: 876px;
+    width: 886px;
     display: flex;
-
+    .content-post-time {
+      font-size: 15px;
+      opacity: 0.7;
+      position: absolute;
+      top: -20px;
+      left: calc(50% - 50px);
+    }
     &--container {
+      width: 843px;
       padding: 20px 0;
       border: 1px solid black;
       border-radius: 15px;

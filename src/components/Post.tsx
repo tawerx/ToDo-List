@@ -6,9 +6,10 @@ import { RootState } from '../redux/store';
 type PostProps = {
   title: string;
   index: number;
+  date: string;
 };
 
-const Post: React.FC<PostProps> = ({ title, index }) => {
+const Post: React.FC<PostProps> = ({ title, index, date }) => {
   const [completeBar, setCompleteBar] = React.useState(false);
   const [deleteBar, setDeleteBar] = React.useState(false);
   const dispatch = useDispatch();
@@ -75,9 +76,13 @@ const Post: React.FC<PostProps> = ({ title, index }) => {
         <div className="content--post--id">
           <span>{index + 1 + '.'}</span>
         </div>
+
         <div ref={postContainerRef} className="content--post--container">
           {completeBar && <div className="progress-value-complete"></div>}
           {deleteBar && <div className="progress-value-delete"></div>}
+          <div className="content-post-time">
+            <p>{date}</p>
+          </div>
           <div className="content--post--title">
             <h2>{title}</h2>
           </div>

@@ -1,4 +1,3 @@
-import { stringify } from 'querystring';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Color, setChosenColor, setColorFlag } from '../redux/slices/colorsSlice';
@@ -19,7 +18,7 @@ const Header = () => {
     } else if (title == 'Введите заметку' || title == '') {
       alert('Вы не ввели название заметки');
     } else {
-      parsedArray.push({ title: title });
+      parsedArray.push({ title: title, date: new Date().toLocaleString() });
       localStorage.setItem('posts', JSON.stringify(parsedArray));
       alert('Запись успешно добавлена!');
       dispatch(setTitle(''));

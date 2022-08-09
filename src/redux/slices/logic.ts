@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type Posts = {
   title: string;
+  date: string;
 };
 
 interface logicSlice {

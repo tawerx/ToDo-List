@@ -9,7 +9,6 @@ import { RootState } from '../redux/store';
 const Home: React.FC = () => {
   const dispath = useDispatch();
   const { flag, posts } = useSelector((state: RootState) => state.logic);
-
   React.useEffect(() => {
     if (localStorage.getItem('posts') == null) {
       localStorage.setItem('posts', '[]');
@@ -23,8 +22,6 @@ const Home: React.FC = () => {
   React.useEffect(() => {
     dispath(setPosts(JSON.parse(localStorage.getItem('posts') as string)));
   }, [flag]);
-
-  const emptyPostRef = React.useRef(null);
 
   const emptyPosts = <EmptyPosts />;
   const postsItems = posts.map((obj, i) => {
