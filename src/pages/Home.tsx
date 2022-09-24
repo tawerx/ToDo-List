@@ -1,37 +1,43 @@
 import React from 'react';
 import Header from '../components/Header';
-import Post from '../components/Post';
 import EmptyPosts from '../components/EmptyPosts';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPosts } from '../redux/slices/logic';
+import { setNotes, setFlagg } from '../redux/slices/logic';
 import { RootState } from '../redux/store';
+import axios from 'axios';
+import Note from '../components/Note';
 
 const Home: React.FC = () => {
-  const dispath = useDispatch();
-  const { flag, posts } = useSelector((state: RootState) => state.logic);
-  React.useEffect(() => {
-    if (localStorage.getItem('posts') == null) {
-      localStorage.setItem('posts', '[]');
-    }
-
-    if (localStorage.getItem('colors') == null) {
-      localStorage.setItem('colors', '{}');
-    }
-  }, []);
+  const dispatch = useDispatch();
+  const { flag, notes } = useSelector((state: RootState) => state.logic);
 
   React.useEffect(() => {
-    dispath(setPosts(JSON.parse(localStorage.getItem('posts') as string)));
+    axios
+      .get('http://localhost:5000/auth/getNote', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token') as string}` },
+      })
+      .then((res) => {
+        dispatch(setNotes(res.data));
+      })
+      .catch((e) => {
+        alert(e.response.data.message);
+        if (e.response.data.message === 'Пользователь не авторизован.') {
+          localStorage.removeItem('token');
+          dispatch(setFlagg());
+        }
+      });
   }, [flag]);
 
   const emptyPosts = <EmptyPosts />;
-  const postsItems = posts.map((obj, i) => {
-    return <Post key={obj.title} {...obj} index={i} />;
+  const postsItems = notes.map((obj, i) => {
+    return <Note key={obj.id} {...obj} index={i} />;
   });
 
   return (
     <div className="wrapper">
       <Header />
-      <div className="container">{posts[0] == undefined ? emptyPosts : postsItems}</div>
+
+      <div className="container">{notes.length == 0 ? emptyPosts : postsItems}</div>
     </div>
   );
 };

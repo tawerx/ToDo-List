@@ -1,15 +1,17 @@
+import axios from 'axios';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Posts, setFlag } from '../redux/slices/logic';
+import { deleteNote, Notes, setFlag } from '../redux/slices/logic';
 import { RootState } from '../redux/store';
 
-type PostProps = {
-  title: string;
+type NoteProps = {
+  id: string;
+  value: string;
   index: number;
   date: string;
 };
 
-const Post: React.FC<PostProps> = ({ title, index, date }) => {
+const Note: React.FC<NoteProps> = ({ value, id, date, index }) => {
   const [completeBar, setCompleteBar] = React.useState(false);
   const [deleteBar, setDeleteBar] = React.useState(false);
   const dispatch = useDispatch();
@@ -39,11 +41,12 @@ const Post: React.FC<PostProps> = ({ title, index, date }) => {
   };
 
   const deletePost = () => {
-    let parsedArray: Posts[] = JSON.parse(localStorage.getItem('posts') as string);
-    let findItem = parsedArray.findIndex((obj) => obj.title == title);
-    parsedArray.splice(findItem, 1);
-    localStorage.setItem('posts', JSON.stringify(parsedArray));
-    dispatch(setFlag());
+    axios
+      .delete('http://localhost:5000/auth/delete', {
+        data: { deleteId: id },
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
+      .then(() => dispatch(deleteNote(id)));
   };
 
   const onClickVisible = () => {
@@ -84,7 +87,7 @@ const Post: React.FC<PostProps> = ({ title, index, date }) => {
             <p>{date}</p>
           </div>
           <div className="content--post--title">
-            <h2>{title}</h2>
+            <h2>{value}</h2>
           </div>
           {isVisible && (
             <div className="post-button-control">
@@ -102,4 +105,4 @@ const Post: React.FC<PostProps> = ({ title, index, date }) => {
   );
 };
 
-export default Post;
+export default Note;

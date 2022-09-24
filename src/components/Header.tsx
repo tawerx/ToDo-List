@@ -1,28 +1,43 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Color, setChosenColor, setColorFlag } from '../redux/slices/colorsSlice';
-import { setTitle, setFlag, Posts } from '../redux/slices/logic';
+import { setTitle, addNewNote, setFlag, Notes, setFlagg } from '../redux/slices/logic';
 import { RootState } from '../redux/store';
+import axios from 'axios';
 
 const Header = () => {
   const { colors } = useSelector((state: RootState) => state.colors);
   const dispatch = useDispatch();
   const { title, flag } = useSelector((state: RootState) => state.logic);
   const inputRef = React.useRef(null);
+  const exitRef = React.useRef(null);
   const onClickAddPost = () => {
-    let parsedArray: Posts[] = JSON.parse(localStorage.getItem('posts') as string);
-    let findItem = parsedArray.find((obj) => obj.title == title);
-    if (findItem) {
-      alert('Такая запись уже создана');
-      dispatch(setTitle(''));
-    } else if (title == 'Введите заметку' || title == '') {
+    if (title == 'Введите заметку' || title == '') {
       alert('Вы не ввели название заметки');
     } else {
-      parsedArray.push({ title: title, date: new Date().toLocaleString() });
-      localStorage.setItem('posts', JSON.stringify(parsedArray));
-      alert('Запись успешно добавлена!');
+      axios
+        .post(
+          'http://localhost:5000/auth/addNote',
+          {
+            value: title,
+            date: new Date().toLocaleString(),
+          },
+          {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+          },
+        )
+        .then((res) => {
+          dispatch(setFlag());
+          alert(res.data.message);
+        })
+        .catch((e) => {
+          alert(e.response.data.message);
+          if (e.response.data.message === 'Пользователь не авторизован.') {
+            localStorage.removeItem('token');
+            dispatch(setFlagg());
+          }
+        });
       dispatch(setTitle(''));
-      dispatch(setFlag());
     }
   };
 
@@ -46,6 +61,10 @@ const Header = () => {
       const htmlElement = headerAddButtonRef.current as HTMLElement;
       htmlElement.style.backgroundColor = wrapperColor;
     }
+    if (exitRef.current) {
+      const htmlElement = exitRef.current as HTMLElement;
+      htmlElement.style.backgroundColor = wrapperColor;
+    }
   };
 
   React.useEffect(() => {
@@ -61,13 +80,31 @@ const Header = () => {
         const htmlElement = headerAddButtonRef.current as HTMLElement;
         htmlElement.style.backgroundColor = wrapperColor;
       }
+      if (exitRef.current) {
+        const htmlElement = exitRef.current as HTMLElement;
+        htmlElement.style.backgroundColor = wrapperColor;
+      }
     }
   }, []);
 
   return (
     <div className="header">
-      <div ref={headerTitleRef} className="header--title">
-        <h1>ToDo List</h1>
+      <div className="header-top">
+        <div ref={headerTitleRef} className="header--title">
+          <h1>ToDo List</h1>
+        </div>
+        {localStorage.token && (
+          <div className="exit-button">
+            <button
+              ref={exitRef}
+              onClick={() => {
+                localStorage.removeItem('token');
+                dispatch(setFlagg());
+              }}>
+              Выйти
+            </button>
+          </div>
+        )}
       </div>
       <div className="header--add--post">
         <input

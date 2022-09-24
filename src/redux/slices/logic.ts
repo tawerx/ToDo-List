@@ -1,28 +1,38 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type Posts = {
-  title: string;
+export type Notes = {
+  id: string;
+  value: string;
   date: string;
 };
 
 interface logicSlice {
-  posts: Posts[];
+  notes: Notes[];
   flag: boolean;
   title: string;
+  flagg: boolean;
 }
 
 const initialState: logicSlice = {
-  posts: [],
+  notes: [],
   flag: false,
   title: '',
+  flagg: false,
 };
 
 const logicSlice = createSlice({
   name: 'logic',
   initialState,
   reducers: {
-    setPosts: (state, action: PayloadAction<Posts[]>) => {
-      state.posts = action.payload;
+    setNotes: (state, action: PayloadAction<Notes[]>) => {
+      state.notes = action.payload;
+    },
+    addNewNote: (state, action: PayloadAction<Notes>) => {
+      state.notes.push(action.payload);
+    },
+    deleteNote: (state, action) => {
+      const findIndex = state.notes.findIndex((obj) => obj.id == action.payload);
+      state.notes.splice(findIndex, 1);
     },
     setFlag: (state) => {
       state.flag = !state.flag;
@@ -30,8 +40,11 @@ const logicSlice = createSlice({
     setTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
     },
+    setFlagg: (state) => {
+      state.flagg = !state.flagg;
+    },
   },
 });
 
-export const { setPosts, setFlag, setTitle } = logicSlice.actions;
+export const { setNotes, setFlag, setFlagg, setTitle, addNewNote, deleteNote } = logicSlice.actions;
 export default logicSlice.reducer;
