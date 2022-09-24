@@ -17,7 +17,7 @@ const Header = () => {
     } else {
       axios
         .post(
-          'http://localhost:5000/auth/addNote',
+          'https://todo-list-with-mongo.herokuapp.com//auth/addNote',
           {
             value: title,
             date: new Date().toLocaleString(),

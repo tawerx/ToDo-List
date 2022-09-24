@@ -35,10 +35,13 @@ const Auth = () => {
       alert('Вы не ввели данные!');
     } else {
       axios
-        .post('http://localhost:5000/auth/registration', { username, password })
+        .post('https://todo-list-with-mongo.herokuapp.com//auth/registration', {
+          username,
+          password,
+        })
         .then(() => {
           axios
-            .post('http://localhost:5000/auth/login', { username, password })
+            .post('https://todo-list-with-mongo.herokuapp.com//auth/login', { username, password })
             .then((res) => {
               setPassword('');
               setUsername('');
@@ -68,7 +71,7 @@ const Auth = () => {
       alert('Вы не ввели данные!');
     } else {
       axios
-        .post('http://localhost:5000/auth/login', { username, password })
+        .post('https://todo-list-with-mongo.herokuapp.com//auth/login', { username, password })
         .then((res) => {
           setPassword('');
           setUsername('');

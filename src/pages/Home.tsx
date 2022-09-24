@@ -13,7 +13,7 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     axios
-      .get('http://localhost:5000/auth/getNote', {
+      .get('https://todo-list-with-mongo.herokuapp.com//auth/getNote', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token') as string}` },
       })
       .then((res) => {
