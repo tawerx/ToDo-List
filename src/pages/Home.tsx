@@ -13,7 +13,7 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/auth/getNote`, {
+      .get(`${process.env.REACT_APP_API_URL}auth/getNote`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token') as string}` },
       })
       .then((res) => {

@@ -35,13 +35,13 @@ const Auth = () => {
       alert('Вы не ввели данные!');
     } else {
       axios
-        .post(`${process.env.REACT_APP_API_URL}/auth/registration`, {
+        .post(`${process.env.REACT_APP_API_URL}auth/registration`, {
           username,
           password,
         })
         .then(() => {
           axios
-            .post(`${process.env.REACT_APP_API_URL}/auth/login`, { username, password })
+            .post(`${process.env.REACT_APP_API_URL}auth/login`, { username, password })
             .then((res) => {
               setPassword('');
               setUsername('');
@@ -71,7 +71,7 @@ const Auth = () => {
       alert('Вы не ввели данные!');
     } else {
       axios
-        .post(`${process.env.REACT_APP_API_URL}/auth/login`, { username, password })
+        .post(`${process.env.REACT_APP_API_URL}auth/login`, { username, password })
         .then((res) => {
           setPassword('');
           setUsername('');

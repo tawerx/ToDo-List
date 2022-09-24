@@ -17,7 +17,7 @@ const Header = () => {
     } else {
       axios
         .post(
-          `${process.env.REACT_APP_API_URL}/auth/addNote`,
+          `${process.env.REACT_APP_API_URL}auth/addNote`,
           {
             value: title,
             date: new Date().toLocaleString(),
