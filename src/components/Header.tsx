@@ -17,7 +17,7 @@ const Header = () => {
     } else {
       axios
         .post(
-          'https://todo-list-with-mongo.herokuapp.com//auth/addNote',
+          `${process.env.REACT_APP_API_URL}/auth/addNote`,
           {
             value: title,
             date: new Date().toLocaleString(),

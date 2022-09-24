@@ -42,7 +42,7 @@ const Note: React.FC<NoteProps> = ({ value, id, date, index }) => {
 
   const deletePost = () => {
     axios
-      .delete('https://todo-list-with-mongo.herokuapp.com//auth/delete', {
+      .delete(`${process.env.REACT_APP_API_URL}/auth/delete`, {
         data: { deleteId: id },
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       })
