@@ -1,3 +1,5 @@
-React ToDo list - gh pages: https://tawerx.github.io/todo-list/
+React ToDo list
+vercel(frontend): https://todo-list-5qhszgueh-tawer.vercel.app/
+heroku(backend)
 
-react, typescript, scss, redux toolkit, localStorage
+react, typescript, scss, redux toolkit, axios, node.js, mongoDB
