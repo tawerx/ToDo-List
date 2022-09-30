@@ -1,14 +1,16 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Color, setChosenColor, setColorFlag } from '../redux/slices/colorsSlice';
-import { setTitle, addNewNote, setFlag, Notes, setFlagg } from '../redux/slices/logic';
+import { setTitle, setFlag, setClear } from '../redux/slices/logic';
 import { RootState } from '../redux/store';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
   const { colors } = useSelector((state: RootState) => state.colors);
   const dispatch = useDispatch();
-  const { title, flag } = useSelector((state: RootState) => state.logic);
+  const { title } = useSelector((state: RootState) => state.logic);
   const inputRef = React.useRef(null);
   const exitRef = React.useRef(null);
   const onClickAddPost = () => {
@@ -34,10 +36,12 @@ const Header = () => {
           alert(e.response.data.message);
           if (e.response.data.message === 'Пользователь не авторизован.') {
             localStorage.removeItem('token');
-            dispatch(setFlagg());
+            dispatch(setClear());
           }
         });
       dispatch(setTitle(''));
+      const htmlElement = inputRef.current as unknown as HTMLElement;
+      htmlElement.style.height = `42px`;
     }
   };
 
@@ -99,7 +103,9 @@ const Header = () => {
               ref={exitRef}
               onClick={() => {
                 localStorage.removeItem('token');
-                dispatch(setFlagg());
+                localStorage.removeItem('userName');
+                dispatch(setClear());
+                navigate('/');
               }}>
               Выйти
             </button>
@@ -107,12 +113,24 @@ const Header = () => {
         )}
       </div>
       <div className="header--add--post">
-        <input
+        <textarea
           placeholder="Введите заметку"
           ref={inputRef}
           className="header--search"
-          type="text"
           value={title}
+          onKeyUp={(e) => {
+            const htmlElement = inputRef.current as unknown as HTMLElement;
+            htmlElement.style.height = '42px';
+            let scHeight = e.target.scrollHeight;
+            htmlElement.style.height = `${scHeight}px`;
+            if (scHeight > 40) {
+              htmlElement.style.borderTopRightRadius = '0px';
+              htmlElement.style.borderBottomRightRadius = '0px';
+            } else {
+              htmlElement.style.borderTopRightRadius = '20px';
+              htmlElement.style.borderBottomRightRadius = '20px';
+            }
+          }}
           onChange={(e) => dispatch(setTitle(e.target.value))}
         />
 

@@ -2,12 +2,15 @@ import React from 'react';
 import Header from '../components/Header';
 import EmptyPosts from '../components/EmptyPosts';
 import { useSelector, useDispatch } from 'react-redux';
-import { setNotes, setFlagg } from '../redux/slices/logic';
+import { setClear, setNotes } from '../redux/slices/logic';
 import { RootState } from '../redux/store';
 import axios from 'axios';
 import Note from '../components/Note';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Home: React.FC = () => {
+  const { userId } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { flag, notes } = useSelector((state: RootState) => state.logic);
 
@@ -23,7 +26,8 @@ const Home: React.FC = () => {
         alert(e.response.data.message);
         if (e.response.data.message === 'Пользователь не авторизован.') {
           localStorage.removeItem('token');
-          dispatch(setFlagg());
+          dispatch(setClear());
+          navigate('/');
         }
       });
   }, [flag]);
@@ -32,6 +36,13 @@ const Home: React.FC = () => {
   const postsItems = notes.map((obj, i) => {
     return <Note key={obj.id} {...obj} index={i} />;
   });
+
+  React.useEffect(() => {
+    if (localStorage.userName != userId) {
+      alert('Пользователь не авторизован.');
+      navigate('/');
+    }
+  }, []);
 
   return (
     <div className="wrapper">

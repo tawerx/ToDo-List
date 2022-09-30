@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteNote, Notes, setFlag } from '../redux/slices/logic';
+import { deleteNote } from '../redux/slices/logic';
 import { RootState } from '../redux/store';
 
 type NoteProps = {

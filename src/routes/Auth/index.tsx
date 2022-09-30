@@ -1,17 +1,16 @@
 import axios from 'axios';
 import React from 'react';
-import Home from '../../pages/Home';
 import styles from './Auth.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { setFlagg } from '../../redux/slices/logic';
-import { RootState } from '../../redux/store';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setClear } from '../../redux/slices/logic';
 
 const Auth = () => {
   const dispatch = useDispatch();
-  const { flagg } = useSelector((state: RootState) => state.logic);
+  const location = useLocation();
+  const navigate = useNavigate();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [isAuth, setIsAuth] = React.useState(false);
   const headerTitleRef = React.useRef(null);
   const wrapperRef = React.useRef(null);
 
@@ -28,7 +27,10 @@ const Auth = () => {
         htmlElement.style.backgroundColor = wrapperColor;
       }
     }
-  }, [flagg]);
+    if (localStorage.token && username) {
+      navigate(`../../user/${username}`);
+    }
+  }, []);
 
   const onClickReg = () => {
     if (username == '' || password == '') {
@@ -45,14 +47,15 @@ const Auth = () => {
             .then((res) => {
               setPassword('');
               setUsername('');
+              localStorage.setItem('userName', username);
               localStorage.setItem('token', res.data);
-              setIsAuth(!isAuth);
+              navigate(`/user/${username}`);
             })
             .catch((e) => {
               alert(e.response.data.message);
               if (e.response.data.message === 'Пользователь не авторизован.') {
                 localStorage.removeItem('token');
-                dispatch(setFlagg());
+                dispatch(setClear());
               }
             });
         })
@@ -60,7 +63,7 @@ const Auth = () => {
           alert(e.response.data.message);
           if (e.response.data.message === 'Пользователь не авторизован.') {
             localStorage.removeItem('token');
-            dispatch(setFlagg());
+            dispatch(setClear());
           }
         });
     }
@@ -70,31 +73,28 @@ const Auth = () => {
     if (username == '' || password == '') {
       alert('Вы не ввели данные!');
     } else {
+      localStorage.setItem('userName', username);
       axios
         .post(`${process.env.REACT_APP_API_URL}auth/login`, { username, password })
         .then((res) => {
           setPassword('');
           setUsername('');
           localStorage.setItem('token', res.data);
-          setIsAuth(!isAuth);
+          navigate(`/user/${username}`);
         })
         .catch((e) => {
           alert(e.response.data.message);
           if (e.response.data.message === 'Пользователь не авторизован.') {
             localStorage.removeItem('token');
-            dispatch(setFlagg());
+            dispatch(setClear());
           }
         });
     }
   };
 
-  if (localStorage.token) {
-    return <Home />;
-  }
-
   return (
     <div className="wrapper">
-      <div ref={headerTitleRef} className="header--title">
+      <div ref={headerTitleRef} className={styles.header_title}>
         <h1>ToDo List</h1>
       </div>
       <div ref={wrapperRef} className={styles.auth_wrapper}>
@@ -112,8 +112,11 @@ const Auth = () => {
           />
         </div>
         <div className={styles.auth_button_control}>
-          <button onClick={onClickEnter}>Войти</button>
-          <button onClick={onClickReg}>Зарегистрироваться</button>
+          {location.pathname == '/auth/login' ? (
+            <button onClick={onClickEnter}>Войти</button>
+          ) : (
+            <button onClick={onClickReg}>Зарегистрироваться</button>
+          )}
         </div>
       </div>
     </div>

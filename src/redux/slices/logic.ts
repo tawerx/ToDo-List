@@ -10,14 +10,12 @@ interface logicSlice {
   notes: Notes[];
   flag: boolean;
   title: string;
-  flagg: boolean;
 }
 
 const initialState: logicSlice = {
   notes: [],
   flag: false,
   title: '',
-  flagg: false,
 };
 
 const logicSlice = createSlice({
@@ -30,7 +28,7 @@ const logicSlice = createSlice({
     addNewNote: (state, action: PayloadAction<Notes>) => {
       state.notes.push(action.payload);
     },
-    deleteNote: (state, action) => {
+    deleteNote: (state, action: PayloadAction<string>) => {
       const findIndex = state.notes.findIndex((obj) => obj.id == action.payload);
       state.notes.splice(findIndex, 1);
     },
@@ -40,11 +38,11 @@ const logicSlice = createSlice({
     setTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
     },
-    setFlagg: (state) => {
-      state.flagg = !state.flagg;
+    setClear: (state) => {
+      state.notes = [];
     },
   },
 });
 
-export const { setNotes, setFlag, setFlagg, setTitle, addNewNote, deleteNote } = logicSlice.actions;
+export const { setNotes, setFlag, setTitle, addNewNote, deleteNote, setClear } = logicSlice.actions;
 export default logicSlice.reducer;
