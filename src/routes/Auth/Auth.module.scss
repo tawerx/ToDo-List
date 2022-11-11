@@ -37,6 +37,12 @@
       color: black;
     }
   }
+
+  p {
+    font-size: 14px;
+    margin-top: -10px;
+    opacity: 0.5;
+  }
 }
 
 .auth_button_control {
@@ -63,6 +69,19 @@
   height: 72px;
   h1 {
     font-weight: 600;
+  }
+
+  a {
+    color: black;
+    &:visited {
+      color: black;
+    }
+    &:hover {
+      color: black;
+    }
+    &:active {
+      color: black;
+    }
   }
   @media (max-width: 876px) {
     width: 100%;

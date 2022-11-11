@@ -7,12 +7,16 @@ import { RootState } from '../redux/store';
 import axios from 'axios';
 import Note from '../components/Note';
 import { useNavigate, useParams } from 'react-router-dom';
+import Alert from '../components/alert';
 
 const Home: React.FC = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { flag, notes } = useSelector((state: RootState) => state.logic);
+
+  const [alertMessage, setAlertMessage] = React.useState('');
+  const [showAlert, setShowAlert] = React.useState(false);
 
   React.useEffect(() => {
     axios
@@ -23,7 +27,12 @@ const Home: React.FC = () => {
         dispatch(setNotes(res.data));
       })
       .catch((e) => {
-        alert(e.response.data.message);
+        // alert(e.response.data.message);
+        setAlertMessage(e.response.data.message);
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 3000);
         if (e.response.data.message === 'Пользователь не авторизован.') {
           localStorage.removeItem('token');
           dispatch(setClear());
@@ -39,17 +48,26 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     if (localStorage.userName != userId) {
-      alert('Пользователь не авторизован.');
+      // alert('Пользователь не авторизован.');
+      setAlertMessage('Пользователь не авторизован');
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+        console.log(1);
+      }, 3000);
       navigate('/');
     }
   }, []);
 
   return (
-    <div className="wrapper">
-      <Header />
+    <>
+      <>{showAlert && <Alert message={alertMessage} />}</>
+      <div className="wrapper">
+        <Header />
 
-      <div className="container">{notes.length == 0 ? emptyPosts : postsItems}</div>
-    </div>
+        <div className="container">{notes.length == 0 ? emptyPosts : postsItems}</div>
+      </div>
+    </>
   );
 };
 
