@@ -2,9 +2,11 @@ import axios from 'axios';
 import React from 'react';
 import styles from './Auth.module.scss';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setClear } from '../../redux/slices/logic';
+import { useDispatch, useSelector } from 'react-redux';
+import { setClear } from '../../redux/slices/logicSlice';
 import Alert from '../../components/alert';
+import { RootState } from '../../redux/store';
+import { showAlert } from '../../buisinessLogic';
 
 const Auth = () => {
   const dispatch = useDispatch();
@@ -12,10 +14,9 @@ const Auth = () => {
   const navigate = useNavigate();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [alertMessage, setAlertMessage] = React.useState('');
-  const [showAlert, setShowAlert] = React.useState(false);
   const headerTitleRef = React.useRef(null);
   const wrapperRef = React.useRef(null);
+  const { alertVis } = useSelector((state: RootState) => state.alert);
 
   React.useEffect(() => {
     if (localStorage.getItem('colors') != null) {
@@ -37,35 +38,20 @@ const Auth = () => {
 
   const onClickReg = () => {
     if (username == '' || password == '') {
-      // alert('Вы не ввели данные!');
-      setAlertMessage('Вы не ввели данные!');
-      setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
+      showAlert('Вы не ввели данные!', dispatch);
     } else if (password.length < 5) {
-      // alert('Длина пароля меньше 5 символов!');
-      setAlertMessage('Длина пароля меньше 5 символов!');
-      setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
+      showAlert('Длина пароля меньше 5 символов!', dispatch);
     } else if (password.split('').includes(' ')) {
-      // alert('Пароль не должен содержать пробелы!');
-      setAlertMessage('Пароль не должен содержать пробелы!');
-      setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
+      showAlert('Пароль не должен содержать пробелы!', dispatch);
     } else {
       axios
-        .post(`${process.env.REACT_APP_API_URL}auth/registration`, {
+        .post(`${process.env.REACT_APP_HOST_URL}auth/registration`, {
           username,
           password,
         })
         .then(() => {
           axios
-            .post(`${process.env.REACT_APP_API_URL}auth/login`, {
+            .post(`${process.env.REACT_APP_HOST_URL}auth/login`, {
               username,
               password,
             })
@@ -77,12 +63,8 @@ const Auth = () => {
               navigate(`/user/${username}`);
             })
             .catch((e) => {
-              // alert(e.response.data.message);
-              setAlertMessage(e.response.data.message);
-              setShowAlert(true);
-              setTimeout(() => {
-                setShowAlert(false);
-              }, 3000);
+              showAlert(e.response.data.message, dispatch);
+
               if (e.response.data.message === 'Пользователь не авторизован.') {
                 localStorage.removeItem('token');
                 dispatch(setClear());
@@ -90,12 +72,8 @@ const Auth = () => {
             });
         })
         .catch((e) => {
-          // alert(e.response.data.message);
-          setAlertMessage(e.response.data.message);
-          setShowAlert(true);
-          setTimeout(() => {
-            setShowAlert(false);
-          }, 3000);
+          showAlert(e.response.data.message, dispatch);
+
           if (e.response.data.message === 'Пользователь не авторизован.') {
             localStorage.removeItem('token');
             dispatch(setClear());
@@ -106,16 +84,11 @@ const Auth = () => {
 
   const onClickEnter = () => {
     if (username == '' || password == '') {
-      // alert('Вы не ввели данные!');
-      setAlertMessage('Вы не ввели данные!');
-      setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
+      showAlert('Вы не ввели данные!', dispatch);
     } else {
       localStorage.setItem('userName', username);
       axios
-        .post(`${process.env.REACT_APP_API_URL}auth/login`, {
+        .post(`${process.env.REACT_APP_HOST_URL}auth/login`, {
           username,
           password,
         })
@@ -126,12 +99,8 @@ const Auth = () => {
           navigate(`/user/${username}`);
         })
         .catch((e) => {
-          // alert(e.response.data.message);
-          setAlertMessage(e.response.data.message);
-          setShowAlert(true);
-          setTimeout(() => {
-            setShowAlert(false);
-          }, 3000);
+          showAlert(e.response.data.message, dispatch);
+
           if (e.response.data.message === 'Пользователь не авторизован.') {
             localStorage.removeItem('token');
             dispatch(setClear());
@@ -142,7 +111,7 @@ const Auth = () => {
 
   return (
     <div className="wrapper">
-      {showAlert && <Alert message={alertMessage} />}
+      {alertVis && <Alert />}
       <div ref={headerTitleRef} className={styles.header_title}>
         <Link to={'/'}>
           <h1>ToDo List</h1>
