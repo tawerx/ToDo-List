@@ -9,7 +9,7 @@ import Note from '../../components/Note/Note';
 import { useNavigate, useParams } from 'react-router-dom';
 import Alert from '../../components/alert';
 import styles from './Home.module.scss';
-import CreateNewPost from '../../components/CreateNewPost';
+import CreateNewNote from '../../components/CreateNewNote';
 import { showAlert } from '../../buisinessLogic';
 
 const Home: React.FC = () => {
@@ -62,7 +62,7 @@ const Home: React.FC = () => {
           </button>
         )}
         {createVis ? (
-          <CreateNewPost setCreateVis={setCreateVis} />
+          <CreateNewNote setCreateVis={setCreateVis} />
         ) : (
           <div className="container">{notes.length == 0 ? emptyPosts : postsItems}</div>
         )}

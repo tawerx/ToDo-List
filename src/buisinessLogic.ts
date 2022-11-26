@@ -1,7 +1,7 @@
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React from 'react';
-import { FilesInfo } from './components/CreateNewPost';
+import { FilesInfo } from './components/CreateNewNote';
 import { storage } from './firebase-config';
 import { setAlertDisable, setAlertVisible } from './redux/slices/alertSlice';
 

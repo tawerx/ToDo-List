@@ -1,14 +1,14 @@
 import React from 'react';
 import dayjs from 'dayjs';
 
-import styles from './CreateNewPost.module.scss';
+import styles from './CreateNewNote.module.scss';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewNote } from '../../redux/slices/logicSlice';
 import { changeColor, getColorFromLS, showAlert, uploadAndGetUrl } from '../../buisinessLogic';
 import { RootState } from '../../redux/store';
 
-interface CreateNewPostProps {
+interface CreateNewNoteProps {
   setCreateVis: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -18,7 +18,7 @@ export type FilesInfo = {
   fileUrl: string;
 };
 
-const CreateNewPost: React.FC<CreateNewPostProps> = ({ setCreateVis }) => {
+const CreateNewNote: React.FC<CreateNewNoteProps> = ({ setCreateVis }) => {
   const { chosenColor } = useSelector((state: RootState) => state.colors);
   const dispatch = useDispatch();
   const [title, setTitle] = React.useState('');
@@ -159,4 +159,4 @@ const CreateNewPost: React.FC<CreateNewPostProps> = ({ setCreateVis }) => {
   );
 };
 
-export default CreateNewPost;
+export default CreateNewNote;

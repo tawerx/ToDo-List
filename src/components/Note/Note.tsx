@@ -8,7 +8,7 @@ import { storage } from '../../firebase-config';
 import { deleteNote, setUpdateComplete, setUpdateDelay } from '../../redux/slices/logicSlice';
 import { RootState } from '../../redux/store';
 import { changeColor, getColorFromLS } from '../../buisinessLogic';
-import { FilesInfo } from '../CreateNewPost';
+import { FilesInfo } from '../CreateNewNote';
 import EditNote from '../EditNote/EditNote';
 import styles from './Note.module.scss';
 
@@ -44,11 +44,15 @@ const Note: React.FC<NoteProps> = ({
   const { chosenColor } = useSelector((state: RootState) => state.colors);
 
   const onClickDelete = () => {
-    if (noteContainerRef.current) {
+    if (localStorage.getItem('colors') != null && noteContainerRef.current) {
       const htmlElement = noteContainerRef.current as HTMLElement;
       const { wrapperColor } = JSON.parse(localStorage.getItem('colors') as string);
       htmlElement.style.backgroundColor = wrapperColor;
+    } else if (noteContainerRef.current) {
+      const htmlElement = noteContainerRef.current as HTMLElement;
+      htmlElement.style.backgroundColor = '#d9d9d9';
     }
+
     setDeleteBar(true);
     setIsVisible(false);
     setTimeout(clickDelete, 1000);

@@ -5,7 +5,7 @@ import { deleteObject, ref } from 'firebase/storage';
 import { useDispatch } from 'react-redux';
 import { storage } from '../../firebase-config';
 import { setDeleteFile, setUpdateNote } from '../../redux/slices/logicSlice';
-import { FilesInfo } from '../CreateNewPost';
+import { FilesInfo } from '../CreateNewNote';
 import styles from './EditNote.module.scss';
 import { showAlert, uploadAndGetUrl } from '../../buisinessLogic';
 

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FilesInfo } from '../../components/CreateNewPost';
+import { FilesInfo } from '../../components/CreateNewNote';
 
 export type Notes = {
   _id: string;
